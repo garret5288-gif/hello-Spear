@@ -32,4 +32,4 @@ export default function Player({ initialName, symbol, isActive, onNameChange }) 
         <button onClick={handleEditClick}>Edit</button>
       </li>
     );
-}
+}  
