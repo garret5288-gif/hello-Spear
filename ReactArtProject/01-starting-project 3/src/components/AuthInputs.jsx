@@ -1,8 +1,5 @@
-import { useState } from 'react';
-import { styled } from 'styled-components';
-
-import Button from './Button.jsx';
-import Input from './Input.jsx';
+import { useState } from "react";
+import styled from "styled-components";
 
 const ControlContainer = styled.div`
   display: flex;
@@ -11,60 +8,53 @@ const ControlContainer = styled.div`
   margin-bottom: 1.5rem;
 `;
 
-
-
-
-
-
 export default function AuthInputs() {
-  const [enteredEmail, setEnteredEmail] = useState('');
-  const [enteredPassword, setEnteredPassword] = useState('');
+  const [enteredEmail, setEnteredEmail] = useState("");
+  const [enteredPassword, setEnteredPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   function handleInputChange(identifier, value) {
-    if (identifier === 'email') {
-      setEnteredEmail(value);
-    } else {
-      setEnteredPassword(value);
-    }
+    if (identifier === "email") setEnteredEmail(value);
+    if (identifier === "password") setEnteredPassword(value);
   }
 
   function handleLogin() {
     setSubmitted(true);
+    // demo only
   }
 
-  const emailNotValid = submitted && !enteredEmail.includes('@');
+  const emailNotValid = submitted && !enteredEmail.includes("@");
   const passwordNotValid = submitted && enteredPassword.trim().length < 6;
 
   return (
-    <div id="auth-inputs">
+    <section>
       <ControlContainer>
-          <Input
-            label="Email"
-            invalid={emailNotValid}
-            type="email"
-            // style={{
-            //   backgroundColor: emailNotValid ? '#fed2d2' : '#d1d5db'
-            // }}
-            onChange={(event) => handleInputChange('email', event.target.value)}
-          />
-          <Input
-            invalid={passwordNotValid}
-            label="Password"
-            type="password"
-            onChange={(event) =>
-              handleInputChange('password', event.target.value)
-            }
-          />
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          className={`border rounded px-3 py-2 ${emailNotValid ? "border-red-500" : "border-gray-300"}`}
+          value={enteredEmail}
+          onChange={(e) => handleInputChange("email", e.target.value)}
+        />
+        {emailNotValid && <p className="text-sm text-red-600">Enter a valid email.</p>}
       </ControlContainer>
-      <div className="actions">
-        <button type="button" className="text-button">
-          Create a new account
-        </button>
-        <Button onClick={handleLogin}>
-          Sign In
-        </Button>
-      </div>
-    </div>
+
+      <ControlContainer>
+        <label htmlFor="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          className={`border rounded px-3 py-2 ${passwordNotValid ? "border-red-500" : "border-gray-300"}`}
+          value={enteredPassword}
+          onChange={(e) => handleInputChange("password", e.target.value)}
+        />
+        {passwordNotValid && <p className="text-sm text-red-600">Min 6 characters.</p>}
+      </ControlContainer>
+
+      <button onClick={handleLogin} className="bg-black text-white px-4 py-2 rounded">
+        Log in
+      </button>
+    </section>
   );
 }
